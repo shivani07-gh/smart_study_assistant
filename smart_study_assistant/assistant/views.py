@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from .forms import DocumentForm
 from .models import Document
 from rag.pdf_loader import extract_text_from_pdf
+from rag.chunking import chunk_text
 
 
 # Home page
@@ -19,13 +20,21 @@ def upload_file(request):
         if form.is_valid():
             doc = form.save()
 
-            # 📄 PDF path
             file_path = doc.file.path
 
-            # 🧠 Extract text from PDF
             text = extract_text_from_pdf(file_path)
 
-            print("PDF TEXT:\n", text[:1000])  # debug
+            print("TEXT LENGTH:", len(text))   # 👈 add this
+
+            chunks = chunk_text(text)
+
+            print("TOTAL CHUNKS:", len(chunks))   # 👈 add this
+
+            # 👇 SAFE CHECK (IMPORTANT)
+            if len(chunks) > 0:
+                print("FIRST CHUNK:\n", chunks[0])
+            else:
+                print("⚠️ No chunks generated")
 
             return render(request, 'assistant/success.html')
 

@@ -1,18 +1,14 @@
-from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
+from sentence_transformers import SentenceTransformer
 
-# model load (only once)
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 def create_embeddings(chunks):
-    embeddings = model.encode(chunks)
-    return np.array(embeddings)
+    return model.encode(chunks)
 
 def store_in_faiss(embeddings):
-    dimension = embeddings.shape[1]
-
-    index = faiss.IndexFlatL2(dimension)
-    index.add(embeddings)
-
+    dim = len(embeddings[0])
+    index = faiss.IndexFlatL2(dim)
+    index.add(np.array(embeddings))
     return index

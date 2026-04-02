@@ -1,0 +1,16 @@
+<h2>Ask Question 🤖</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <input type="text" name="query" placeholder="Ask something..." required />
+
+    <select name="doc_id" required>
+        <option value="">Select Document</option>
+        {% for doc in documents %}
+            <option value="{{ doc.id }}">{{ doc.file.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Ask</button>
+</form>

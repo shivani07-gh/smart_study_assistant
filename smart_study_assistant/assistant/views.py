@@ -34,13 +34,32 @@ def upload_file(request):
             doc = form.save()
             file_path = doc.file.path
 
+            # 🔥 STEP 1: Extract text (OCR)
             text = extract_text_from_pdf(file_path)
+
+            print("TEXT LENGTH:", len(text))
+            print("TEXT SAMPLE:", text[:200])
+
+            # ❌ agar text hi nahi mila
+            if not text or text.strip() == "":
+                return HttpResponse("OCR failed ❌ No text extracted")
+
+            # 🔥 STEP 2: Chunk
             chunks = chunk_text(text)
 
-            if not chunks:
-                return HttpResponse("No text found in PDF!")
+            # 🔥 STEP 3: Clean chunks (VERY IMPORTANT)
+            chunks = [c for c in chunks if isinstance(c, str) and c.strip() != ""]
 
+            print("CHUNKS COUNT:", len(chunks))
+
+            # ❌ agar chunks empty
+            if not chunks:
+                return HttpResponse("No valid chunks found ❌")
+
+            # 🔥 STEP 4: Embeddings
             embeddings = create_embeddings(chunks)
+
+            # 🔥 STEP 5: Store in FAISS
             index = store_in_faiss(embeddings)
 
             # 📁 Save paths
@@ -78,7 +97,18 @@ def ask_question(request):
         except:
             return HttpResponse("Index not found. Upload document again.")
 
+        # ❌ agar chunks empty
+        if not chunks:
+            return HttpResponse("No data found for this document ❌")
+
+        # 🔥 Retrieval
         results = search_similar_chunks(query, index, chunks)
+
+        # ❌ agar results empty
+        if not results:
+            return HttpResponse("No relevant content found ❌")
+
+        # 🔥 Generate answer
         answer = generate_answer(query, results)
 
         ChatHistory.objects.create(

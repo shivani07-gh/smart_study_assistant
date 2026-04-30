@@ -90,11 +90,14 @@ body {
 }
 
 .input-area button {
-    padding: 10px;
+    padding: 10px 16px;
     background: #2563eb;
     color: white;
     border: none;
+    cursor: pointer;
 }
+
+/* OLD doc list (optional, ignore if unused) */
 .doc-list {
     padding: 10px;
     border-bottom: 1px solid #ddd;
@@ -124,35 +127,42 @@ body {
     color: red;
     cursor: pointer;
 }
+
+/* 🔥 SEARCH BOX */
 .doc-search-box {
     position: relative;
     width: 350px;
     margin: 10px;
 }
 
+/* input */
 #docSearch {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
 }
 
-/* Dropdown */
+/* 🔥 DROPDOWN FIX */
 .dropdown-list {
-    display: none;
-    position: absolute;
+    display: none;              /* hidden by default */
+    position: absolute;         /* 🔥 attach to input */
+    top: 100%;                  /* below input */
+    left: 0;
     width: 100%;
     background: white;
     border: 1px solid #ccc;
     max-height: 200px;
     overflow-y: auto;
-    z-index: 100;
+    z-index: 999;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* Items */
+/* items */
 .dropdown-item {
     display: flex;
     justify-content: space-between;
-    padding: 8px;
+    align-items: center;
+    padding: 10px;
     cursor: pointer;
 }
 
@@ -165,7 +175,5 @@ body {
     border: none;
     color: red;
     cursor: pointer;
-}
-.dropdown-list {
-    display: block !important;  /* TEMP FIX */
+    font-size: 16px;
 }

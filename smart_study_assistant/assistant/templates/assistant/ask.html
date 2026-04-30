@@ -35,8 +35,8 @@
                 {% for doc in documents %}
                 <div class="dropdown-item" data-name="{{ doc.file.name|lower }}" id="doc-{{ doc.id }}">
 
-                    <span onclick="selectDoc({{ doc.id }}, '{{ doc.file.name }}')">
-                        {{ doc.file.name }}
+                    <span onclick="selectDoc({{ doc.id }}, '{{ doc.file.name|cut:"uploads/" }}')">
+                        {{ doc.file.name|cut:"uploads/" }}
                     </span>
 
                     <button onclick="deleteDoc(event, {{ doc.id }})">❌</button>
@@ -66,12 +66,26 @@
 
 <script>
 
-// 🚀 WAIT FOR DOM
+// 🚀 ON LOAD
 window.onload = function() {
 
-    // 🔥 SHOW DROPDOWN
-    document.getElementById("docSearch").addEventListener("focus", () => {
-        document.getElementById("docList").style.display = "block";
+    const searchInput = document.getElementById("docSearch");
+    const dropdown = document.getElementById("docList");
+
+    // 🔥 OPEN on click
+    searchInput.addEventListener("click", () => {
+        dropdown.style.display = "block";
+    });
+
+    // 🔥 LIVE SEARCH
+    searchInput.addEventListener("keyup", function() {
+        let input = searchInput.value.toLowerCase();
+        let items = document.querySelectorAll(".dropdown-item");
+
+        items.forEach(item => {
+            let name = item.getAttribute("data-name");
+            item.style.display = name.includes(input) ? "flex" : "none";
+        });
     });
 
     // 🔥 AUTO SELECT (dashboard se aaya)
@@ -79,7 +93,7 @@ window.onload = function() {
     if (selected) {
         let selectedDoc = document.querySelector(`#doc-${selected} span`);
         if (selectedDoc) {
-            document.getElementById("docSearch").value = selectedDoc.innerText;
+            searchInput.value = selectedDoc.innerText;
         }
     }
 
@@ -89,28 +103,16 @@ window.onload = function() {
             sendMessage();
         }
     });
+
 };
-
-
-// 🔍 FILTER DOCUMENTS
-function filterDocs() {
-    let input = document.getElementById("docSearch").value.toLowerCase();
-    let items = document.querySelectorAll(".dropdown-item");
-
-    items.forEach(item => {
-        let name = item.getAttribute("data-name");
-        item.style.display = name.includes(input) ? "flex" : "none";
-    });
-}
-
-// 🔍 LIVE SEARCH
-document.getElementById("docSearch").addEventListener("keyup", filterDocs);
 
 
 // 📄 SELECT DOCUMENT
 function selectDoc(id, name) {
     document.getElementById("docSelect").value = id;
     document.getElementById("docSearch").value = name;
+
+    // 🔥 CLOSE dropdown
     document.getElementById("docList").style.display = "none";
 }
 
@@ -131,7 +133,7 @@ function deleteDoc(event, id) {
 }
 
 
-// 🔥 HIDE DROPDOWN OUTSIDE CLICK
+// 🔥 CLOSE ON OUTSIDE CLICK
 document.addEventListener("click", function(e) {
     if (!e.target.closest(".doc-search-box")) {
         document.getElementById("docList").style.display = "none";
@@ -152,13 +154,12 @@ function sendMessage() {
 
     let chatBox = document.getElementById("chatBox");
 
-    // USER MESSAGE
     chatBox.innerHTML += `<div class="msg user">${query}</div>`;
     document.getElementById("queryInput").value = "";
 
-    // BOT TYPING
     let typingId = "typing-" + Date.now();
     chatBox.innerHTML += `<div class="msg bot" id="${typingId}">Typing...</div>`;
+
     chatBox.scrollTop = chatBox.scrollHeight;
 
     let formData = new FormData();

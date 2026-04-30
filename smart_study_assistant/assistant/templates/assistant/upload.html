@@ -1,17 +1,119 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Upload PDF</title>
+    <title>Upload Documents</title>
+    <link rel="stylesheet" href="{% static 'assistant/css/upload.css' %}">
 </head>
 <body>
 
-<h2>Upload your PDF 📄</h2>
+<div class="container">
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-</form>
+    <h2>Upload Documents</h2>
+    <p>Add PDF files to your study library</p>
+
+    <!-- Upload Box -->
+    <div class="upload-box">
+        <input type="file" id="fileInput" hidden>
+
+        <label for="fileInput" class="upload-area">
+            <div class="icon">⬆️</div>
+            <p><b>Drop your PDF files here</b></p>
+            <span>or click to browse</span>
+        </label>
+
+        <button onclick="uploadFile()" class="upload-btn">Upload PDF</button>
+    </div>
+
+    <!-- Uploaded Files -->
+    <div class="uploaded-section">
+        <h3>Uploaded Files</h3>
+        <div id="fileList"></div>
+    </div>
+
+</div>
+
+<script>
+
+function uploadFile() {
+    let fileInput = document.getElementById('fileInput');
+    let file = fileInput.files[0];
+
+    if (!file) {
+        alert("Please select a file!");
+        return;
+    }
+
+    let formData = new FormData();
+    formData.append('file', file);
+
+    fetch('/upload/', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        let list = document.getElementById('fileList');
+
+        let item = `
+            <div class="file-item" id="file-${data.id}">
+                <span>${data.file_name}</span>
+
+                <div class="actions">
+                    <span class="success">✔</span>
+                    <button onclick="deleteFile(${data.id})" class="delete-btn">✖</button>
+                </div>
+            </div>
+        `;
+
+        list.innerHTML += item;
+
+        fileInput.value = "";
+    });
+}
+
+
+// DELETE FUNCTION
+function deleteFile(id) {
+
+    fetch(`/delete/${id}/`)
+    .then(res => res.json())
+    .then(data => {
+
+        if (data.message) {
+            document.getElementById(`file-${id}`).remove();
+        } else {
+            alert("Delete failed");
+        }
+
+    });
+}
+
+
+// CSRF helper
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie) {
+        let cookies = document.cookie.split(';');
+        for (let c of cookies) {
+            if (c.trim().startsWith(name + '=')) {
+                cookieValue = c.split('=')[1];
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
 
 </body>
 </html>

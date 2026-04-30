@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f5f6fa;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 40px;
+}
+
+/* Upload box */
+.upload-box {
+    margin-top: 20px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Drag area */
+.upload-area {
+    display: block;
+    border: 2px dashed #ccc;
+    padding: 50px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.upload-area:hover {
+    border-color: #2563eb;
+    background: #f0f4ff;
+}
+
+.icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* Button */
+.upload-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Uploaded section */
+.uploaded-section {
+    margin-top: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* File item */
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Success tick */
+.success {
+    color: green;
+    font-size: 18px;
+}
+
+/* Delete button */
+.delete-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: 10px;
+}

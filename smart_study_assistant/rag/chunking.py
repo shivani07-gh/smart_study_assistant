@@ -1,19 +1,19 @@
 import re
 
-# 🔥 STEP 1: CLEAN TEXT FUNCTION
+#  CLEAN TEXT FUNCTION
 def clean_text(text):
     if not text:
         return ""
 
-    # remove multiple spaces, newlines etc
+    # removE spaces, newlines 
     text = re.sub(r'\s+', ' ', text)
     return text.strip()
 
 
-# 🔥 STEP 2: CHUNK TEXT FUNCTION
+#CHUNK TEXT FUNCTION
 def chunk_text(text, chunk_size=500, overlap=100):
 
-    # 👇 sabse pehle clean karo
+    # clean karo
     text = clean_text(text)
 
     # safety check

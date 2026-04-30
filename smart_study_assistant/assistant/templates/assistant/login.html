@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Smart Study Assistant</title>
+    <link rel="stylesheet" href="{% static 'assistant/css/style.css' %}">
+</head>
+<body>
+
+<div class="login-container">
+
+    <!-- LEFT SIDE -->
+    <div class="login-left">
+        <div class="logo">📘</div>
+
+        <h1>Smart Study Assistant</h1>
+        <p class="subtitle">AI-powered learning from your documents</p>
+
+        <div class="login-card">
+            <h2>Welcome back</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <label>Email address</label>
+                <input type="email" name="email" placeholder="you@example.com">
+
+                <label>Password</label>
+                <input type="password" name="password" placeholder="••••••••">
+
+                <button type="submit">Sign in</button>
+            </form>
+
+            <p class="demo-text">
+                Demo app - Enter any email and password to continue
+            </p>
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="login-right">
+        <h1>Learn smarter, not harder</h1>
+        <p>
+            Upload your PDFs and get instant answers powered by AI.
+            Perfect for students, researchers, and lifelong learners.
+        </p>
+
+        <ul>
+            <li>📄 Upload Documents</li>
+            <li>❓ Ask Questions</li>
+            <li>⚡ Study Efficiently</li>
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

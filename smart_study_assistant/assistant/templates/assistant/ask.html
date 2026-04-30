@@ -1,16 +1,212 @@
-<h2>Ask Question 🤖</h2>
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="stylesheet" href="{% static 'assistant/css/chat.css' %}">
+</head>
 
-<form method="post">
-    {% csrf_token %}
+<body>
 
-    <input type="text" name="query" placeholder="Ask something..." required />
+<div class="container">
 
-    <select name="doc_id" required>
-        <option value="">Select Document</option>
-        {% for doc in documents %}
-            <option value="{{ doc.id }}">{{ doc.file.name }}</option>
-        {% endfor %}
-    </select>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Smart Study Assistant</h2>
 
-    <button type="submit">Ask</button>
-</form>
+        <ul>
+            <li><a href="/dashboard/">Dashboard</a></li>
+            <li><a href="/upload/">Upload</a></li>
+            <li class="active">Chat</li>
+            <li><a href="/history/">History</a></li>
+        </ul>
+    </div>
+
+    <!-- Chat -->
+    <div class="chat-container">
+
+        <!-- 🔍 SEARCH DROPDOWN -->
+        <div class="doc-search-box">
+
+            <input type="text" id="docSearch" placeholder="Search document...">
+
+            <div id="docList" class="dropdown-list">
+
+                {% for doc in documents %}
+                <div class="dropdown-item" data-name="{{ doc.file.name|lower }}" id="doc-{{ doc.id }}">
+
+                    <span onclick="selectDoc({{ doc.id }}, '{{ doc.file.name }}')">
+                        {{ doc.file.name }}
+                    </span>
+
+                    <button onclick="deleteDoc(event, {{ doc.id }})">❌</button>
+
+                </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <!-- hidden selected -->
+        <input type="hidden" id="docSelect" value="{{ selected_doc_id }}">
+
+        <!-- Messages -->
+        <div id="chatBox" class="chat-box"></div>
+
+        <!-- Input -->
+        <div class="input-area">
+            <input type="text" id="queryInput" placeholder="Ask something...">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// 🚀 WAIT FOR DOM
+window.onload = function() {
+
+    // 🔥 SHOW DROPDOWN
+    document.getElementById("docSearch").addEventListener("focus", () => {
+        document.getElementById("docList").style.display = "block";
+    });
+
+    // 🔥 AUTO SELECT (dashboard se aaya)
+    let selected = document.getElementById("docSelect").value;
+    if (selected) {
+        let selectedDoc = document.querySelector(`#doc-${selected} span`);
+        if (selectedDoc) {
+            document.getElementById("docSearch").value = selectedDoc.innerText;
+        }
+    }
+
+    // 🔥 ENTER SUPPORT
+    document.getElementById("queryInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            sendMessage();
+        }
+    });
+};
+
+
+// 🔍 FILTER DOCUMENTS
+function filterDocs() {
+    let input = document.getElementById("docSearch").value.toLowerCase();
+    let items = document.querySelectorAll(".dropdown-item");
+
+    items.forEach(item => {
+        let name = item.getAttribute("data-name");
+        item.style.display = name.includes(input) ? "flex" : "none";
+    });
+}
+
+// 🔍 LIVE SEARCH
+document.getElementById("docSearch").addEventListener("keyup", filterDocs);
+
+
+// 📄 SELECT DOCUMENT
+function selectDoc(id, name) {
+    document.getElementById("docSelect").value = id;
+    document.getElementById("docSearch").value = name;
+    document.getElementById("docList").style.display = "none";
+}
+
+
+// ❌ DELETE DOCUMENT
+function deleteDoc(event, id) {
+    event.stopPropagation();
+
+    fetch(`/delete/${id}/`)
+    .then(res => res.json())
+    .then(data => {
+        if (data.message) {
+            document.getElementById("doc-" + id).remove();
+        } else {
+            alert("Delete failed");
+        }
+    });
+}
+
+
+// 🔥 HIDE DROPDOWN OUTSIDE CLICK
+document.addEventListener("click", function(e) {
+    if (!e.target.closest(".doc-search-box")) {
+        document.getElementById("docList").style.display = "none";
+    }
+});
+
+
+// 💬 SEND MESSAGE
+function sendMessage() {
+
+    let query = document.getElementById("queryInput").value;
+    let docId = document.getElementById("docSelect").value;
+
+    if (!query || !docId) {
+        alert("Select document & type question!");
+        return;
+    }
+
+    let chatBox = document.getElementById("chatBox");
+
+    // USER MESSAGE
+    chatBox.innerHTML += `<div class="msg user">${query}</div>`;
+    document.getElementById("queryInput").value = "";
+
+    // BOT TYPING
+    let typingId = "typing-" + Date.now();
+    chatBox.innerHTML += `<div class="msg bot" id="${typingId}">Typing...</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    let formData = new FormData();
+    formData.append("query", query);
+    formData.append("doc_id", docId);
+
+    fetch("/chat/", {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken")
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        let typingDiv = document.getElementById(typingId);
+
+        if (data.error) {
+            typingDiv.innerText = data.error;
+        } else {
+            typingDiv.innerText = data.answer;
+        }
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(err => {
+        console.error(err);
+        document.getElementById(typingId).innerText = "Something went wrong ❌";
+    });
+}
+
+
+// 🔐 CSRF
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie) {
+        let cookies = document.cookie.split(';');
+        for (let c of cookies) {
+            if (c.trim().startsWith(name + '=')) {
+                cookieValue = c.split('=')[1];
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+
+</body>
+</html>

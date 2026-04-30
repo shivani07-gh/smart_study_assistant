@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import os
 
 from .forms import DocumentForm
 from .models import Document, ChatHistory
+from django.http import JsonResponse
 
 from rag.pdf_loader import extract_text_from_pdf
 from rag.chunking import chunk_text
@@ -25,6 +26,26 @@ def home(request):
     return HttpResponse("Smart Study Assistant Running 🚀")
 
 
+# 🔐 Login
+def login_view(request):
+    if request.method == "POST":
+        return redirect('/dashboard/')
+    return render(request, 'assistant/login.html')
+
+
+# 📊 Dashboard
+def dashboard(request):
+    docs = Document.objects.all()
+    total_docs = docs.count()
+    total_questions = ChatHistory.objects.count()
+
+    return render(request, 'assistant/dashboard.html', {
+        'documents': docs,
+        'total_docs': total_docs,
+        'total_questions': total_questions,
+    })
+
+
 # 📤 Upload PDF
 def upload_file(request):
     if request.method == 'POST':
@@ -34,52 +55,64 @@ def upload_file(request):
             doc = form.save()
             file_path = doc.file.path
 
-            # 🔥 STEP 1: Extract text (OCR)
             text = extract_text_from_pdf(file_path)
 
-            print("TEXT LENGTH:", len(text))
-            print("TEXT SAMPLE:", text[:200])
+            if not text.strip():
+                return JsonResponse({"error": "No text found"})
 
-            # ❌ agar text hi nahi mila
-            if not text or text.strip() == "":
-                return HttpResponse("OCR failed ❌ No text extracted")
-
-            # 🔥 STEP 2: Chunk
             chunks = chunk_text(text)
+            chunks = [c for c in chunks if c.strip()]
 
-            # 🔥 STEP 3: Clean chunks (VERY IMPORTANT)
-            chunks = [c for c in chunks if isinstance(c, str) and c.strip() != ""]
-
-            print("CHUNKS COUNT:", len(chunks))
-
-            # ❌ agar chunks empty
-            if not chunks:
-                return HttpResponse("No valid chunks found ❌")
-
-            # 🔥 STEP 4: Embeddings
             embeddings = create_embeddings(chunks)
-
-            # 🔥 STEP 5: Store in FAISS
             index = store_in_faiss(embeddings)
 
-            # 📁 Save paths
             index_path = f"media/faiss_{doc.id}.index"
             chunks_path = f"media/chunks_{doc.id}.pkl"
 
             save_index(index, index_path)
             save_chunks(chunks, chunks_path)
 
-            return render(request, 'assistant/success.html')
+            return JsonResponse({
+                "message": "Upload success",
+                "file_name": doc.file.name,
+                "file_size": doc.file.size,
+                "id": doc.id
+            })
 
-    else:
-        form = DocumentForm()
+    return render(request, 'assistant/upload.html')
 
-    return render(request, 'assistant/upload.html', {'form': form})
+#delete karnee ke liyeee
 
+def delete_file(request, doc_id):
+    try:
+        doc = Document.objects.get(id=doc_id)
 
-# ❓ Ask Question
+        # delete physical file
+        if os.path.exists(doc.file.path):
+            os.remove(doc.file.path)
+
+        # delete faiss + chunks
+        index_path = f"media/faiss_{doc.id}.index"
+        chunks_path = f"media/chunks_{doc.id}.pkl"
+
+        if os.path.exists(index_path):
+            os.remove(index_path)
+
+        if os.path.exists(chunks_path):
+            os.remove(chunks_path)
+
+        doc.delete()
+
+        return JsonResponse({"message": "Deleted successfully"})
+
+    except:
+        return JsonResponse({"error": "File not found"})
+# 💬 Ask Question
 def ask_question(request):
     documents = Document.objects.all()
+
+    # 🔥 GET se selected doc (dashboard se aaya)
+    selected_doc_id = request.GET.get('doc_id')
 
     if request.method == 'POST':
         query = request.POST.get('query')
@@ -95,33 +128,49 @@ def ask_question(request):
             index = load_index(index_path)
             chunks = load_chunks(chunks_path)
         except:
-            return HttpResponse("Index not found. Upload document again.")
+            return JsonResponse({
+                "error": "Index not found. Upload document again."
+                })
+            #return HttpResponse("Index not found. Upload document again.")
 
-        # ❌ agar chunks empty
         if not chunks:
-            return HttpResponse("No data found for this document ❌")
+            return JsonResponse({
+                "error": "No data found for this document"
+                })
+            #return HttpResponse("No data found for this document ❌")
 
-        # 🔥 Retrieval
+        # 🔍 Retrieval
         results = search_similar_chunks(query, index, chunks)
 
-        # ❌ agar results empty
         if not results:
-            return HttpResponse("No relevant content found ❌")
+            return JsonResponse({
+                "error": "No relevant content found"
+                })
+            #return HttpResponse("No relevant content found ❌")
 
-        # 🔥 Generate answer
-        answer = generate_answer(query, results)
+        # 🤖 Answer
+        answer = generate_answer(results, query)
 
+        # 💾 Save history
         ChatHistory.objects.create(
             question=query,
             answer=answer
         )
 
-        return render(request, 'assistant/answer.html', {
-            'query': query,
-            'answer': answer,
-            'documents': documents
-        })
+        return JsonResponse({
+            "answer": answer
+            })
 
+    # 🔥 GET request (page load)
     return render(request, 'assistant/ask.html', {
-        'documents': documents
+        'documents': documents,
+        'selected_doc_id': selected_doc_id
+    })
+
+# 🕒 Chat History
+def history(request):
+    chats = ChatHistory.objects.all().order_by('-created_at')
+
+    return render(request, 'assistant/history.html', {
+        'chats': chats
     })

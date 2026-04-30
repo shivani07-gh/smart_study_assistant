@@ -1,0 +1,171 @@
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+.container {
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background: #fff;
+    padding: 20px;
+    height: 100vh;
+    border-right: 1px solid #ddd;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 15px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.active {
+    font-weight: bold;
+}
+
+/* Chat */
+.chat-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Top */
+.top-bar {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Chat box */
+.chat-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background: #f5f6fa;
+}
+
+/* Messages */
+.msg {
+    max-width: 60%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    line-height: 1.4;
+}
+
+.user {
+    background: #2563eb;
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 2px;
+}
+
+.bot {
+    background: #e5e7eb;
+    border-bottom-left-radius: 2px;
+}
+
+/* Input */
+.input-area {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.input-area input {
+    flex: 1;
+    padding: 10px;
+}
+
+.input-area button {
+    padding: 10px;
+    background: #2563eb;
+    color: white;
+    border: none;
+}
+.doc-list {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.doc-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.doc-item:hover {
+    background: #f0f4ff;
+}
+
+.active-doc {
+    background: #2563eb;
+    color: white;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+.doc-search-box {
+    position: relative;
+    width: 350px;
+    margin: 10px;
+}
+
+#docSearch {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+/* Dropdown */
+.dropdown-list {
+    display: none;
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+/* Items */
+.dropdown-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: #f0f4ff;
+}
+
+.dropdown-item button {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+.dropdown-list {
+    display: block !important;  /* TEMP FIX */
+}

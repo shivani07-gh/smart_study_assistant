@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Study Assistant</title>
+    <link rel="stylesheet" href="{% static 'assistant/css/style.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h2>Smart Study Assistant</h2>
+
+        <a href="/dashboard/">Dashboard</a>
+        <a href="/upload/">Upload</a>
+        <a href="/chat/">Chat</a>
+        <a href="/history/">History</a>
+        <a href="/logout/">Logout</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+</div>
+
+</body>
+</html>

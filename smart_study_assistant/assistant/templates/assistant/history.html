@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>History</title>
+    <link rel="stylesheet" href="{% static 'assistant/css/history.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>Smart Study Assistant</h2>
+
+        <ul>
+            <li><a href="/dashboard/">Dashboard</a></li>
+            <li><a href="/upload/">Upload</a></li>
+            <li><a href="/chat/">Chat</a></li>
+            <li class="active">History</li>
+        </ul>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <h1>Chat History</h1>
+        <p>Review your previous questions and answers</p>
+
+        <div class="history-list">
+
+            {% for chat in chats %}
+            <div class="history-item" onclick="toggleAnswer({{ chat.id }})">
+
+                <div class="question">
+                    {{ chat.question }}
+                </div>
+
+                <div class="time">
+                    {{ chat.created_at }}
+                </div>
+
+                <div class="answer" id="ans-{{ chat.id }}">
+                    {{ chat.answer }}
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+function toggleAnswer(id) {
+    let el = document.getElementById("ans-" + id);
+
+    if (el.style.display === "block") {
+        el.style.display = "none";
+    } else {
+        el.style.display = "block";
+    }
+}
+</script>
+
+</body>
+</html>

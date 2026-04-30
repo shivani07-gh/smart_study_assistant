@@ -2,17 +2,39 @@ import numpy as np
 import faiss
 import pickle
 import os
-from sentence_transformers import SentenceTransformer
+from openai import OpenAI
+from dotenv import load_dotenv
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+load_dotenv()
+
+# 🔥 NVIDIA CLIENT
+client = OpenAI(
+    api_key=os.getenv("NVIDIA_API_KEY"),
+    base_url="https://integrate.api.nvidia.com/v1"
+)
+
+# 🔥 GET QUERY EMBEDDING
+def get_query_embedding(query):
+    response = client.embeddings.create(
+        input=[query],
+        model="nvidia/llama-3.2-nemoretriever-300m-embed-v1",
+        extra_body={"input_type": "query"}
+    )
+
+    return response.data[0].embedding   # ✅ VERY IMPORTANT
 
 
 # 🔍 Search similar chunks
-def search_similar_chunks(query, index, chunks, k=3):
-    query_embedding = model.encode([query])
-    distances, indices = index.search(np.array(query_embedding), k)
+def search_similar_chunks(query, index, chunks, k=10):
+    query_embedding = get_query_embedding(query)
 
-    results = [chunks[i] for i in indices[0]]
+    # ✅ FIX SHAPE
+    query_embedding = np.array(query_embedding).astype('float32').reshape(1, -1)
+
+    # ✅ CORRECT FAISS CALL
+    distances, indices = index.search(query_embedding, k)
+
+    results = [chunks[i] for i in indices[0] if i != -1]
     return results
 
 

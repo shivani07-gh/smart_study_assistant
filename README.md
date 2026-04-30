@@ -1,0 +1,177 @@
+# 📚 Smart Study Assistant (AI-Powered RAG System)
+
+An AI-powered study assistant that allows users to upload PDF documents and ask questions based on their content using a Retrieval-Augmented Generation (RAG) approach.
+
+---
+
+## 🚀 Overview
+
+Smart Study Assistant helps users quickly understand their study material by answering questions directly from uploaded PDFs.
+Instead of reading long documents, users can interact with them and get relevant answers instantly.
+
+---
+
+## ✨ Features
+
+* 📄 Upload PDF documents
+* 🔍 Extract text (supports scanned PDFs using OCR)
+* ✂️ Split content into smaller parts
+* 🔎 Retrieve relevant information
+* 💬 Ask questions and get AI-generated answers
+* 🧠 Context-based response generation
+* 🗂 Chat history tracking
+* 🧹 Delete documents with cleanup
+* 🎯 Clean and user-friendly interface
+
+---
+
+## 🏗 Tech Stack
+
+* **Backend:** Django (Python)
+* **Frontend:** HTML, CSS, JavaScript
+* **AI Model:** LLaMA 3.1 (via NVIDIA API)
+* **Vector Search:** FAISS
+* **Embeddings:** Sentence Transformers
+* **Processing:** PDF extraction + OCR
+
+---
+
+## 🎥 Demo
+
+👉 Click below to watch the project demo:
+
+[![Smart Study Assistant Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+
+---
+
+## 📸 Screenshots
+
+### 🔐 Login Page
+
+![Login](assets/screenshots/login.png)
+
+### 📊 Dashboard
+
+![Dashboard](assets/screenshots/dashboard.png)
+
+### 📤 Upload Page
+
+![Upload](assets/screenshots/upload.png)
+
+### 💬 Chat Interface
+
+![Chat](assets/screenshots/chat.png)
+
+### 📜 History Page
+
+![History](assets/screenshots/history.png)
+
+---
+
+## ⚙️ How It Works
+
+1. Upload a PDF
+2. Text is extracted from the document
+3. Content is split into smaller chunks
+4. Each chunk is converted into embeddings
+5. Data is stored for fast searching
+6. When a user asks a question:
+
+   * Relevant parts are retrieved
+   * Passed to the AI model
+   * Final answer is generated
+
+---
+
+## 📁 Project Structure
+
+```bash id="1p7m2d"
+smart_study_assistant/
+│
+├── assistant/
+│   ├── templates/
+│   ├── static/
+│   ├── views.py
+│   ├── models.py
+│   ├── forms.py
+│
+├── rag/
+│   ├── pdf_loader.py
+│   ├── chunking.py
+│   ├── embeddings.py
+│   ├── retrieval.py
+│   ├── generator.py
+│
+├── media/
+├── manage.py
+└── db.sqlite3
+```
+
+---
+
+## 🔧 Setup Instructions
+
+### 1. Clone Repository
+
+```bash id="r3x2lm"
+git clone https://github.com/shivani07-gh/smart_study_assistant.git
+cd smart_study_assistant
+```
+
+### 2. Create Virtual Environment
+
+```bash id="n8q2vk"
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install Dependencies
+
+```bash id="9x6t4r"
+pip install -r requirements.txt
+```
+
+### 4. Add Environment Variables
+
+Create a `.env` file:
+
+```env id="y5m8hz"
+NVIDIA_API_KEY=your_api_key_here
+```
+
+### 5. Run Server
+
+```bash id="2z0q1c"
+python manage.py migrate
+python manage.py runserver
+```
+
+---
+
+## 🌐 Usage
+
+* `/upload/` → Upload PDF
+* `/chat/` → Ask questions
+* Select document → Get answers
+
+---
+
+## 🚀 Future Improvements
+
+* Real-time streaming responses
+* Highlight answers from documents
+* Multi-document support
+* Cloud deployment
+* User authentication
+
+---
+
+## 👩‍💻 Author
+
+**Shivani Barot**
+
+---
+
+## ⭐ Support
+
+If you like this project, give it a ⭐ on GitHub!

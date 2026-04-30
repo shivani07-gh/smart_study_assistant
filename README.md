@@ -40,7 +40,7 @@ Instead of reading long documents, users can interact with them and get relevant
 
 👉 Click below to watch the project demo:
 
-[![Smart Study Assistant Demo](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Smart Study Assistant Demo](https://img.youtube.com/vi/FmDKUYzhB28/0.jpg)](https://www.youtube.com/watch?v=FmDKUYzhB28)
 
 ---
 

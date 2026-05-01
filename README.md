@@ -48,27 +48,27 @@ Instead of reading long documents, users can interact with them and get relevant
 
 ### 🔐 Login Page
 <p align="center">
-<img width="1913" height="918" alt="login" src="https://github.com/user-attachments/assets/88f17ce7-5c0c-47e2-81d2-5cdd2149ccf8" />
+<img width="700" alt="login" src="https://github.com/user-attachments/assets/88f17ce7-5c0c-47e2-81d2-5cdd2149ccf8" />
 </p>
 
 ### 📊 Dashboard
 <p align="center">
-  <img width="1912" height="923" alt="dashboard" src="https://github.com/user-attachments/assets/14981578-5af5-4ab9-bbe5-6d5bd1c7a211" />
+  <img width="700" alt="dashboard" src="https://github.com/user-attachments/assets/14981578-5af5-4ab9-bbe5-6d5bd1c7a211" />
 </p>
 
 ### 📤 Upload Page
 <p align="center">
-<img width="1919" height="917" alt="upload" src="https://github.com/user-attachments/assets/f9a16b38-59c8-4f8e-8f5b-a1afdf386392" />
+<img width="700" alt="upload" src="https://github.com/user-attachments/assets/f9a16b38-59c8-4f8e-8f5b-a1afdf386392" />
 </p>
 
 ### 💬 Chat Interface
 <p align="center">
-<img width="1919" height="924" alt="chat" src="https://github.com/user-attachments/assets/225bf021-b1d7-4716-8bc0-3413ccb38ab0" />
+<img width="700" alt="chat" src="https://github.com/user-attachments/assets/225bf021-b1d7-4716-8bc0-3413ccb38ab0" />
 </p>
 
 ### 📜 History Page
 <p align="center">
-<img width="1916" height="817" alt="history" src="https://github.com/user-attachments/assets/7b1b867b-a155-4f02-9866-094a289e8338" />
+<img width="700" alt="history" src="https://github.com/user-attachments/assets/7b1b867b-a155-4f02-9866-094a289e8338" />
 </p>
 ---
 

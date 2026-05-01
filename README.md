@@ -48,7 +48,7 @@ Instead of reading long documents, users can interact with them and get relevant
 
 ### 🔐 Login Page
 <p align="left">
-<img width="700" alt="login" src="https://github.com/user-attachments/assets/88f17ce7-5c0c-47e2-81d2-5cdd2149ccf8" />
+<img width="500" alt="login" src="https://github.com/user-attachments/assets/88f17ce7-5c0c-47e2-81d2-5cdd2149ccf8" />
 </p>
 
 ### 📊 Dashboard

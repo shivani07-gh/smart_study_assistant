@@ -58,17 +58,17 @@ Instead of reading long documents, users can interact with them and get relevant
 
 ### 📤 Upload Page
 <p align="center">
-  <img src="Screenshots/upload.png" width="800"/>
+<img width="1919" height="917" alt="upload" src="https://github.com/user-attachments/assets/f9a16b38-59c8-4f8e-8f5b-a1afdf386392" />
 </p>
 
 ### 💬 Chat Interface
 <p align="center">
-  <img src="screenshots/chat.png" width="800"/>
+<img width="1919" height="924" alt="chat" src="https://github.com/user-attachments/assets/225bf021-b1d7-4716-8bc0-3413ccb38ab0" />
 </p>
 
 ### 📜 History Page
 <p align="center">
-  <img src="screenshots/history.png" width="800"/>
+<img width="1916" height="817" alt="history" src="https://github.com/user-attachments/assets/7b1b867b-a155-4f02-9866-094a289e8338" />
 </p>
 ---
 

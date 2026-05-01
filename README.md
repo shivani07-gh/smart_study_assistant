@@ -47,25 +47,29 @@ Instead of reading long documents, users can interact with them and get relevant
 ## 📸 Screenshots
 
 ### 🔐 Login Page
-
-![Login](assets/screenshots/login.png)
+<p align="center">
+  <img src="screenshots/login.png" width="800"/>
+</p>
 
 ### 📊 Dashboard
-
-![Dashboard](assets/screenshots/dashboard.png)
+<p align="center">
+  <img src="screenshots/dashboard.png" width="800"/>
+</p>
 
 ### 📤 Upload Page
-
-![Upload](assets/screenshots/upload.png)
+<p align="center">
+  <img src="screenshots/upload.png" width="800"/>
+</p>
 
 ### 💬 Chat Interface
-
-![Chat](assets/screenshots/chat.png)
+<p align="center">
+  <img src="screenshots/chat.png" width="800"/>
+</p>
 
 ### 📜 History Page
-
-![History](assets/screenshots/history.png)
-
+<p align="center">
+  <img src="screenshots/history.png" width="800"/>
+</p>
 ---
 
 ## ⚙️ How It Works

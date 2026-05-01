@@ -48,17 +48,17 @@ Instead of reading long documents, users can interact with them and get relevant
 
 ### 🔐 Login Page
 <p align="center">
-  <img src="https://raw.githubusercontent.com/shivani07-gh/smart_study_assistant/main/screenshots/login.png" width="800"/>
+  <img src="https://raw.githubusercontent.com/shivani07-gh/smart_study_assistant/main/Screenshots/login.png" width="800"/>
 </p>
 
 ### 📊 Dashboard
 <p align="center">
-  <img src="screenshots/dashboard.png" width="800"/>
+  <img src="Screenshots/dashboard.png" width="800"/>
 </p>
 
 ### 📤 Upload Page
 <p align="center">
-  <img src="screenshots/upload.png" width="800"/>
+  <img src="Screenshots/upload.png" width="800"/>
 </p>
 
 ### 💬 Chat Interface

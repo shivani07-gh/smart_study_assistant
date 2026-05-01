@@ -48,12 +48,12 @@ Instead of reading long documents, users can interact with them and get relevant
 
 ### 🔐 Login Page
 <p align="center">
-  <img src="https://raw.githubusercontent.com/shivani07-gh/smart_study_assistant/main/Screenshots/login.png" width="800"/>
+<img width="1913" height="918" alt="login" src="https://github.com/user-attachments/assets/88f17ce7-5c0c-47e2-81d2-5cdd2149ccf8" />
 </p>
 
 ### 📊 Dashboard
 <p align="center">
-  <img src="Screenshots/dashboard.png" width="800"/>
+  <img width="1912" height="923" alt="dashboard" src="https://github.com/user-attachments/assets/14981578-5af5-4ab9-bbe5-6d5bd1c7a211" />
 </p>
 
 ### 📤 Upload Page

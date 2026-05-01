@@ -48,7 +48,7 @@ Instead of reading long documents, users can interact with them and get relevant
 
 ### 🔐 Login Page
 <p align="center">
-  <img src="screenshots/login.png" width="800"/>
+  <img src="https://raw.githubusercontent.com/shivani07-gh/smart_study_assistant/main/screenshots/login.png" width="800"/>
 </p>
 
 ### 📊 Dashboard
